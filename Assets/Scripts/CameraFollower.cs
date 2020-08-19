@@ -17,6 +17,8 @@ public class CameraFollower : MonoBehaviour
     void Update()
     {
         transform.position = carPlayer.transform.position;
-        transform.rotation = carPlayer.GetCarRotation();
+
+        if (carPlayer.GetComponent<CarController>().isGrounded)
+            transform.rotation = carPlayer.GetCarRotation();
     }
 }

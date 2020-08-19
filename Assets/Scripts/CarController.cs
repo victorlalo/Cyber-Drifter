@@ -5,7 +5,9 @@ using UnityEngine;
 public class CarController : MonoBehaviour
 {
     public float speed = 10f;
-    public float turnSpeed = 2f;
+    public float normalTurnSpeed = 0.1f;
+    public float driftTurnSpeed = 2f;
+    public float airFlipSpeed = 50f;
     public float lerpSpeed = 0.5f;
 
     [SerializeField] GameObject carModel;
@@ -22,6 +24,7 @@ public class CarController : MonoBehaviour
 
     Rigidbody sphereRB;
     public bool isGrounded = true;
+    public bool isDrifting = false;
 
     void Start()
     {
@@ -40,15 +43,42 @@ public class CarController : MonoBehaviour
 
     void Update() {
 
-        // if on ground, can turn
-        if (isGrounded)
+        if (transform.position.y < -20)
         {
-            float inputDir = Input.GetAxis("Horizontal");
-            transform.Rotate(0, inputDir * turnSpeed * Time.deltaTime, 0);
+            transform.rotation = Quaternion.identity;
+            sphereRB.velocity = Vector3.zero;
+            sphereRB.drag = floatyDrag;
+
+            sphereRB.gameObject.transform.position = startPos;
+            transform.position = startPos;
+
+
+
+            Debug.Log("GAME OVER!");
+        }
+
+        float inputDir = Input.GetAxis("Horizontal");
+
+        isDrifting = Input.GetButton("Jump");
+
+        // if on ground and no drifting, can turn
+        if (isGrounded && !isDrifting)
+        {
+            sphereRB.MovePosition(new Vector3(sphereRB.position.x + inputDir * normalTurnSpeed * Time.deltaTime, sphereRB.position.y, sphereRB.position.z));
+        }
+
+        else if (isGrounded && isDrifting)
+        {
+            transform.Rotate(0, inputDir * driftTurnSpeed * Time.deltaTime, 0);
         }
 
         // otherwise, do air spin tricks
-        
+        else if (!isGrounded)
+        {
+            float xRotation = Input.GetAxis("Vertical");
+            transform.Rotate(xRotation * airFlipSpeed * Time.deltaTime, 0, -inputDir * airFlipSpeed * Time.deltaTime);
+        }
+
     }
 
     private void FixedUpdate()
@@ -70,32 +100,21 @@ public class CarController : MonoBehaviour
 
     }
 
-    //private void OnCollisionEnter(Collision collision)
+    //private void OnTriggerEnter(Collider other)
     //{
-    //    print(collision.gameObject.tag);
-    //    if (collision.gameObject.CompareTag("DeathZone"))
+
+    //    if (other.gameObject.CompareTag("DeathZone"))
     //    {
-    //        // Fell off. Go to Game Over menu and start again.
+    //        transform.rotation = Quaternion.identity;
+    //        sphereRB.velocity = Vector3.zero;
+    //        sphereRB.drag = floatyDrag;
+
+    //        sphereRB.gameObject.transform.position = startPos;
     //        transform.position = startPos;
-    //        Debug.Log("GAME OVER!");
-    //    }
-    //}
-
-    private void OnTriggerEnter(Collider other)
-    {
-
-        if (other.gameObject.CompareTag("DeathZone"))
-        {
-            transform.rotation = Quaternion.identity;
-            sphereRB.velocity = Vector3.zero;
-            sphereRB.drag = floatyDrag;
-
-            sphereRB.gameObject.transform.position = startPos;
-            transform.position = startPos;
 
             
 
-            Debug.Log("GAME OVER!");
-        }
-    }
+    //        Debug.Log("GAME OVER!");
+    //    }
+    //}
 }
