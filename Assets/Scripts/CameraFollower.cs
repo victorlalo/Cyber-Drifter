@@ -5,6 +5,7 @@ using UnityEngine;
 public class CameraFollower : MonoBehaviour
 {
     [SerializeField] CarController carPlayer;
+    [SerializeField] float slerpTime = 0.01f;
     //[SerializeField] Vector3 camOffset = new Vector3(0, 10, -50);
 
     void Awake()
@@ -17,8 +18,10 @@ public class CameraFollower : MonoBehaviour
     void Update()
     {
         transform.position = carPlayer.transform.position;
-
+        
         if (carPlayer.GetComponent<CarController>().isGrounded)
-            transform.rotation = carPlayer.GetCarRotation();
+            
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, carPlayer.GetCarRotation().eulerAngles.y, 0), slerpTime);
+
     }
 }
