@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class KeyPromptFX : MonoBehaviour
 {
@@ -20,7 +21,12 @@ public class KeyPromptFX : MonoBehaviour
         // any key begins game, EXCEPT mouse clicks
         if (Input.anyKeyDown && !(Input.GetKeyDown(KeyCode.Mouse0)|Input.GetKeyDown(KeyCode.Mouse1)|Input.GetKeyDown(KeyCode.Mouse2)))
         {
-            Debug.Log("START!");
+            SceneManager.LoadScene(1);
         }
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }
