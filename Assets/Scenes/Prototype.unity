@@ -3453,7 +3453,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 80
-  normalTurnSpeed: 35
+  normalTurnSpeed: 60
   driftTurnSpeed: 80
   airFlipSpeed: 500
   lerpSpeed: 0.1
