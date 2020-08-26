@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 12323, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: Synthwave_Main_Colors
+  m_EditorClassIdentifier: 
+  m_Presets:
+  - m_Name: 
+    m_Color: {r: 0.56078434, g: 0.019607844, b: 0.76470596, a: 1}
+  - m_Name: 
+    m_Color: {r: 0.9215687, g: 0, b: 0.854902, a: 1}
+  - m_Name: 
+    m_Color: {r: 0.25882354, g: 0.854902, b: 0.882353, a: 1}
+  - m_Name: 
+    m_Color: {r: 0.25882354, g: 0.5254902, b: 0.9058824, a: 1}
+  - m_Name: 
+    m_Color: {r: 1, g: 1, b: 1, a: 1}
+  - m_Name: 
+    m_Color: {r: 0.93725497, g: 0.41176474, b: 0.12941177, a: 1}
+  - m_Name: 
+    m_Color: {r: 0.93725497, g: 0.14117648, b: 0.14509805, a: 1}
+  - m_Name: 
+    m_Color: {r: 0.882353, g: 0.8862746, b: 0.24705884, a: 1}
