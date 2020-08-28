@@ -1,14 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CarController : MonoBehaviour
 {
-    public float speed = 10f;
-    public float normalTurnSpeed = 0.1f;
-    public float driftTurnSpeed = 2f;
-    public float airFlipSpeed = 50f;
-    public float lerpSpeed = 0.5f;
+    [SerializeField] float speed = 10f;
+    [SerializeField] float speedIncrement = 0.01f;
+    [SerializeField] float normalTurnSpeed = 0.1f;
+    [SerializeField] float driftTurnSpeed = 2f;
+    [SerializeField] float airFlipSpeed = 50f;
+    [SerializeField] float lerpSpeed = 0.5f;
 
     public float maxTurnAmt = 15;
 
@@ -21,6 +23,8 @@ public class CarController : MonoBehaviour
     [SerializeField] EndlessSpawner endlessRoad;
 
     [SerializeField] Vector3 colliderOffset = new Vector3();
+
+    [SerializeField] Text speedText;
 
     float normalDrag, airDownDrag, driftDrag;
     float normalMass, driftMass;
@@ -68,6 +72,12 @@ public class CarController : MonoBehaviour
             endlessRoad.ResetRamps();
 
             Debug.Log("GAME OVER!");
+        }
+
+        if (isGrounded && Time.timeScale == 1)
+        {
+            speed += speedIncrement;
+            speedText.text = speed.ToString("F2") + " km/hr";
         }
 
         isDrifting = Input.GetButton("Jump");

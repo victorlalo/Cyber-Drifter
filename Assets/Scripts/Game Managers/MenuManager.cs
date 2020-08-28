@@ -29,7 +29,7 @@ public class MenuManager: MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (isPaused)
+            if (isPaused && pauseMenu.activeSelf)
             {
                 Unpause();
             }
