@@ -17,6 +17,7 @@ public class EndlessSpawner : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        CarController.OnGameOver += ResetRamps;
 
         for (int i = 1; i < 25; i++)
         {
