@@ -4,66 +4,55 @@ using UnityEngine;
 
 public class EndlessSpawner : MonoBehaviour
 {
-    GameObject player;
-    [SerializeField] GameObject rampPrefab;
-    List<GameObject> rampPool = new List<GameObject>();
+    int initialSpawnNum = 10;
+    [SerializeField] GameObject platformPrefab;
+    float straightPlatformLength;
 
-    [SerializeField] float floorWidth = 100f;
-    float furthestRampPosZ = 0;
-    float zSpacing = 100f;
+    float furthestEdge = 0f;
+    int lastPlatformIndex = 0;
 
-    float currMaxDistance = 0f;
+    List<GameObject> platformPool = new List<GameObject>();
 
-    void Start()
+    private void Awake()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
-        CarController.OnGameOver += ResetRamps;
+        EndGate.OnGatePassed += SpawnNewPlatform;
 
-        for (int i = 1; i < 25; i++)
+        GameObject firstPlatform = Instantiate(platformPrefab, new Vector3(0, transform.position.y, 0), Quaternion.identity, gameObject.transform);
+        straightPlatformLength = firstPlatform.GetComponent<RoadChunk>().MaxZPos;
+        firstPlatform.GetComponent<RoadChunk>().ClearPlatform();
+
+        platformPool.Add(firstPlatform);
+
+        Initialize();
+    }
+
+    void Initialize()
+    {
+        for (int i = 1; i < initialSpawnNum; i++)
         {
-            currMaxDistance = zSpacing * i + Random.Range(-zSpacing / 4, zSpacing / 4);
-
-            var r = Instantiate(rampPrefab, new Vector3(Random.Range(-floorWidth/3, floorWidth/3), -Random.Range(-1f,-.25f), currMaxDistance), Quaternion.identity, gameObject.transform);
-            rampPool.Add(r);
-
+            furthestEdge = i * straightPlatformLength + straightPlatformLength;
+            GameObject instance = Instantiate(platformPrefab, new Vector3(0,transform.position.y, furthestEdge), Quaternion.identity, gameObject.transform);
             
-            //r.SetActive(false);
-
+            platformPool.Add(instance);
         }
+        furthestEdge += straightPlatformLength;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SpawnNewPlatform()
     {
-        foreach (GameObject r in rampPool)
-        {
-            if (player.transform.position.z > r.transform.position.z + 10)
-            {
-                r.transform.position += new Vector3(0, 0, currMaxDistance + zSpacing + Random.Range(-zSpacing / 4, zSpacing / 4));
-            }
-        }
+        GameObject lastPlatform = platformPool[lastPlatformIndex];
+        lastPlatform.transform.position = new Vector3(0, transform.position.y, furthestEdge);
+        lastPlatform.GetComponent<RoadChunk>().Repopulate();
+
+        furthestEdge += straightPlatformLength;
+        lastPlatformIndex = (lastPlatformIndex + 1) % initialSpawnNum;
+
+        Debug.Log("MOVED PLATFORM TO END OF LINE");
 
     }
 
-    // if game over/ respawn, reset ramps to beginning
-    // ideally called from Respawn Event
-    public void ResetRamps()
+    public void DespawnPlatform()
     {
-        for (int i = 0; i < rampPool.Count; i++)
-        {
-            currMaxDistance = zSpacing * i + Random.Range(-zSpacing / 4, zSpacing / 4);
-            rampPool[i].transform.position = new Vector3(Random.Range(-floorWidth / 3, floorWidth / 3), -Random.Range(-1f, -.25f), currMaxDistance);
-        }
+
     }
-
-    void spawnRamps()
-    {
-        for (int i = 0; i < 8; i++)
-        {
-            return;
-        }
-    }
-
-
-
 }
