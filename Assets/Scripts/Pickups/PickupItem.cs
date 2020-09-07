@@ -10,14 +10,16 @@ public enum ItemType
     SHIELD,
     MUILTIPLIER,
     DIVIDER,
-    NITROUS
+    NITROUS,
+    TIME_SLOW,
+    TIME_SLUG
 }
 
 public class PickupItem : MonoBehaviour
 {
     [SerializeField] ItemType itemType;
 
-    public event Action<ItemType> onItemCollision;
+    public static event Action<ItemType> onItemCollision;
 
     void Start()
     {
@@ -35,6 +37,8 @@ public class PickupItem : MonoBehaviour
         {
             Debug.Log("GOT ITEM: " + itemType.ToString());
             onItemCollision?.Invoke(itemType);
+
+            // ** TO DO: send back to pool instead of destroy
             Destroy(gameObject);
         }
             

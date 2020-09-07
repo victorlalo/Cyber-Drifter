@@ -36,6 +36,13 @@ public class CarController : MonoBehaviour
 
     Vector3 startPos;
 
+
+    // ITEM PARAMETERS
+    float nitrousAmt = 0f;
+    float nitrousSpeedMultiplier = 1f;
+    [SerializeField] GameObject shield;
+    bool shieldActive = false;
+
     // STATES
     public bool isGrounded = true;
     public bool isDrifting = false;
@@ -46,6 +53,8 @@ public class CarController : MonoBehaviour
     public static event Action<float> OnAddPoints;
     public static event Action OnCollideWithFloor;
     public static event Action OnGameOver;
+
+    public static event Action<float> OnNitrousPickup;
 
     void Start()
     {
@@ -62,6 +71,9 @@ public class CarController : MonoBehaviour
 
         startPos = transform.position;
         //collider = GetComponent<SphereCollider>();
+
+        shield.SetActive(false);
+        PickupItem.onItemCollision += HandleItemPickup;
     }
 
     public Quaternion GetCarRotation()
@@ -69,7 +81,8 @@ public class CarController : MonoBehaviour
         return carModel.transform.rotation;
     }
 
-    void Update() {
+    void Update() 
+    {
 
         if (transform.position.y < -10 || Input.GetKeyDown(KeyCode.R))
         {
@@ -92,6 +105,21 @@ public class CarController : MonoBehaviour
         }
 
         isDrifting = Input.GetButton("Jump");
+
+        if (Input.GetKey(KeyCode.X) && nitrousAmt > 0f)
+        {
+            nitrousAmt -= .1f;
+            nitrousSpeedMultiplier = 2.5f;
+            OnNitrousPickup?.Invoke(-.1f);
+            
+            // activate exhaust flames
+        }
+        else
+        {
+            nitrousSpeedMultiplier = 1f;
+
+            // deactivate exhaust flames
+        }
     }
 
     private void FixedUpdate()
@@ -108,7 +136,7 @@ public class CarController : MonoBehaviour
             sphereRB.drag = normalDrag;
             Physics.gravity = normalGravity;
 
-            sphereRB.AddForce(transform.forward * speed * 100 * Time.deltaTime, ForceMode.Acceleration);
+            sphereRB.AddForce(transform.forward * speed * 100 * nitrousSpeedMultiplier * Time.deltaTime, ForceMode.Acceleration);
             
             //sphereRB.MovePosition(new Vector3(sphereRB.position.x + inputDir * normalTurnSpeed * Time.deltaTime, sphereRB.position.y, sphereRB.position.z));
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0), 0.15f);
@@ -141,7 +169,7 @@ public class CarController : MonoBehaviour
         else if (!isGrounded)
         {
             float xRotation = Input.GetAxis("Vertical");
-            sphereRB.AddForce(Vector3.forward * speed * 80 * Time.deltaTime, ForceMode.Acceleration);
+            sphereRB.AddForce(Vector3.forward * speed * nitrousSpeedMultiplier * 80 * Time.deltaTime, ForceMode.Acceleration);
 
             if (Input.GetAxisRaw("Vertical") == 0 && Input.GetAxisRaw("Horizontal") == 0)
                 transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.identity, 0.05f);
@@ -170,6 +198,20 @@ public class CarController : MonoBehaviour
         if (other.gameObject.CompareTag("Ground"))
         {
             OnCollideWithFloor?.Invoke();
+        }
+    }
+
+    void HandleItemPickup(ItemType itemType)
+    {
+        if (itemType == ItemType.NITROUS)
+        {
+            nitrousAmt = Mathf.Clamp(nitrousAmt + 10f, 0, 100);
+            OnNitrousPickup?.Invoke(10f);
+        }
+        else if (itemType == ItemType.SHIELD)
+        {
+            shieldActive = true;
+            shield.SetActive(true);
         }
     }
 }
