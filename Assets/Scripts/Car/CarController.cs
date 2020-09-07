@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System;
 
 public class CarController : MonoBehaviour
 {
-    // TUNABLE PARAMTERS
     [SerializeField] float speed = 10f;
     [SerializeField] float speedIncrement = 0.01f;
     [SerializeField] float normalTurnSpeed = 0.1f;
@@ -16,40 +14,31 @@ public class CarController : MonoBehaviour
 
     public float maxTurnAmt = 15;
 
-    // PHYSICS STUFF
+    [SerializeField] GameObject carModel;
+    [SerializeField] SphereCollider collider;
+    [SerializeField] GameObject RaycastPoint;
+    public float raycastDistance = 1f;
+    [SerializeField] LayerMask groundLayer;
+
+    [SerializeField] EndlessSpawner endlessRoad;
+
+    [SerializeField] Vector3 colliderOffset = new Vector3();
+
+    [SerializeField] Text speedText;
+
     float normalDrag, airDownDrag, driftDrag;
     float normalMass, driftMass;
     Vector3 normalGravity, heavyGravity;
 
-
-    // 3D MODELS
-    [SerializeField] GameObject carModel;
-    [SerializeField] SphereCollider ballCollider;
-    Rigidbody sphereRB;
-    [SerializeField] Vector3 colliderOffset = new Vector3();
-
-
-    [SerializeField] GameObject RaycastPoint;
-    public float raycastDistance = 1f;
-    [SerializeField] LayerMask groundLayer; 
-    
-
     Vector3 startPos;
 
-    // STATES
+    Rigidbody sphereRB;
     public bool isGrounded = true;
     public bool isDrifting = false;
 
-    // EVENTS
-    public static event Action<float> OnSpeedChange;
-    public static event Action<float> OnTrickPerformed;
-    public static event Action<float> OnAddPoints;
-    public static event Action OnCollideWithFloor;
-    public static event Action OnGameOver;
-
     void Start()
     {
-        sphereRB = ballCollider.GetComponent<Rigidbody>();
+        sphereRB = collider.GetComponent<Rigidbody>();
         normalDrag = sphereRB.drag;
         airDownDrag = normalDrag / 20f;
         driftDrag = normalDrag * 1.5f;
@@ -80,15 +69,15 @@ public class CarController : MonoBehaviour
             sphereRB.gameObject.transform.position = startPos;
             transform.position = startPos;
 
-            OnGameOver?.Invoke();
+            endlessRoad.ResetRamps();
+
             Debug.Log("GAME OVER!");
         }
 
         if (isGrounded && Time.timeScale == 1)
         {
             speed += speedIncrement;
-            OnSpeedChange?.Invoke(speed);
-            //speedText.text = speed.ToString("F2") + "\nkm/hr";
+            speedText.text = speed.ToString("F2") + " km/hr";
         }
 
         isDrifting = Input.GetButton("Jump");
@@ -157,19 +146,25 @@ public class CarController : MonoBehaviour
         }
 
 
-        transform.position = ballCollider.transform.position - colliderOffset;
+        transform.position = collider.transform.position - colliderOffset;
 
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (Time.timeSinceLevelLoad < 0.5f)
-        {
-            return;
-        }
-        if (other.gameObject.CompareTag("Ground"))
-        {
-            OnCollideWithFloor?.Invoke();
-        }
-    }
+    //private void OnTriggerEnter(Collider other)
+    //{
+
+    //    if (other.gameObject.CompareTag("DeathZone"))
+    //    {
+    //        transform.rotation = Quaternion.identity;
+    //        sphereRB.velocity = Vector3.zero;
+    //        sphereRB.drag = floatyDrag;
+
+    //        sphereRB.gameObject.transform.position = startPos;
+    //        transform.position = startPos;
+
+            
+
+    //        Debug.Log("GAME OVER!");
+    //    }
+    //}
 }
