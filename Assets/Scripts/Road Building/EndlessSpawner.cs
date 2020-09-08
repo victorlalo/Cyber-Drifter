@@ -6,6 +6,7 @@ public class EndlessSpawner : MonoBehaviour
 {
     int initialSpawnNum = 10;
     [SerializeField] GameObject platformPrefab;
+    [SerializeField] GameObject firstPlatform;
     float straightPlatformLength;
 
     float furthestEdge = 0f;
@@ -17,7 +18,7 @@ public class EndlessSpawner : MonoBehaviour
     {
         EndGate.OnGatePassed += SpawnNewPlatform;
 
-        GameObject firstPlatform = Instantiate(platformPrefab, new Vector3(0, transform.position.y, 0), Quaternion.identity, gameObject.transform);
+        //GameObject firstPlatform = Instantiate(platformPrefab, new Vector3(0, transform.position.y, 0), Quaternion.identity, gameObject.transform);
         straightPlatformLength = firstPlatform.GetComponent<RoadChunk>().MaxZPos;
         firstPlatform.GetComponent<RoadChunk>().ClearPlatform();
 
@@ -30,9 +31,10 @@ public class EndlessSpawner : MonoBehaviour
     {
         for (int i = 1; i < initialSpawnNum; i++)
         {
-            furthestEdge = i * straightPlatformLength + straightPlatformLength;
+            furthestEdge = i * straightPlatformLength - 5;
             GameObject instance = Instantiate(platformPrefab, new Vector3(0,transform.position.y, furthestEdge), Quaternion.identity, gameObject.transform);
-            
+
+            instance.GetComponent<RoadChunk>().PopulatePlatform();
             platformPool.Add(instance);
         }
         furthestEdge += straightPlatformLength;
@@ -42,7 +44,7 @@ public class EndlessSpawner : MonoBehaviour
     {
         GameObject lastPlatform = platformPool[lastPlatformIndex];
         lastPlatform.transform.position = new Vector3(0, transform.position.y, furthestEdge);
-        lastPlatform.GetComponent<RoadChunk>().Repopulate();
+        lastPlatform.GetComponent<RoadChunk>().PopulatePlatform();
 
         furthestEdge += straightPlatformLength;
         lastPlatformIndex = (lastPlatformIndex + 1) % initialSpawnNum;

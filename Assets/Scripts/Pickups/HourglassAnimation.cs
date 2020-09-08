@@ -15,7 +15,7 @@ public class HourglassAnimation : MonoBehaviour
 
     void StartAnimation()
     {
-        transform.DOMoveY(1f, .5f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo).SetDelay(delay);
+        transform.DOMoveY(transform.position.y + 1f, .5f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo).SetDelay(delay);
         transform.DORotate(new Vector3(180, 0, 0), .85f, RotateMode.WorldAxisAdd).SetEase(Ease.InOutQuart).SetLoops(-1, LoopType.Yoyo).SetDelay(delay);
     }
 }

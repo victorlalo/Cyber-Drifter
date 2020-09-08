@@ -19,7 +19,7 @@ public class CameraFollower : MonoBehaviour
 
     void Awake()
     {
-        CarController.OnCollideWithFloor += FloorCollisionScreenShake;
+        //CarController.OnCollideWithFloor += FloorCollisionScreenShake;
         cam = Camera.main;
         originalCamPos = cam.transform.localPosition;
         //transform.rotation = Quaternion.Euler(0, -15, 0);
