@@ -32,7 +32,7 @@ public class CameraFollower_2 : MonoBehaviour
     {
         transform.position = car.transform.position;
 
-        if (car.GetComponent<CarController_2>().isGrounded)
+        if (car.GetComponent<CarController_3>().isGrounded)
 
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, car.transform.eulerAngles.y, 0), slerpTime);
 

@@ -43,6 +43,21 @@ public class WheelPair
         rightCollider.brakeTorque = 0;
         leftCollider.brakeTorque = 0;
     }
+
+    public void UpdateMeshes()
+    {
+        Vector3 pos = Vector3.zero;
+        Quaternion rot = Quaternion.identity;
+
+        rightCollider.GetWorldPose(out pos, out rot);
+        rightMesh.transform.position = pos;
+        rightMesh.transform.rotation = rot;
+
+        leftCollider.GetWorldPose(out pos, out rot);
+        leftMesh.transform.position = pos;
+        leftMesh.transform.rotation = rot;
+
+    }
 }
 
 
@@ -57,6 +72,8 @@ public class CarController_2 : MonoBehaviour
     [Header("Car Body Objects")]
     // Car Model Object
     [SerializeField] GameObject carModel;
+    [SerializeField] Transform centerOfMass;
+    Rigidbody rb;
 
     // Body Collision Detection
     Collider carBodyCollider;
@@ -78,6 +95,8 @@ public class CarController_2 : MonoBehaviour
     void Start()
     {
         carBodyCollider = carModel.GetComponent<Collider>();
+        rb = GetComponent<Rigidbody>();
+        rb.centerOfMass = centerOfMass.position;
 
         frontWheels.ClearBreaks();
         backWheels.ClearBreaks();
@@ -87,10 +106,17 @@ public class CarController_2 : MonoBehaviour
 
     void FixedUpdate()
     {
-        frontWheels.ApplyAcceleration(motorForce);
-        backWheels.ApplyAcceleration(motorForce);
+        float motorVal = Input.GetAxisRaw("Vertical") * motorForce;
+        //frontWheels.ApplyAcceleration(motorVal);
+        backWheels.ApplyAcceleration(motorVal);
 
-        float steerVal = Input.GetAxis("Horizontal") * turnAmount;
+        float steerVal = Input.GetAxisRaw("Horizontal") * turnAmount;
         frontWheels.ApplySteering(steerVal);
+    }
+
+    private void Update()
+    {
+        frontWheels.UpdateMeshes();
+        backWheels.UpdateMeshes();
     }
 }
