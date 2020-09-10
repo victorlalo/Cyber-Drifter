@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraFollower : MonoBehaviour
+public class CameraFollower_2 : MonoBehaviour
 {
-    [SerializeField] CarController carPlayer;
+    GameObject car;
+    [SerializeField] Camera cam;
+
     [SerializeField] float slerpTime = 0.01f;
-    Camera cam;
+    
     Vector3 originalCamPos;
 
     [SerializeField] float shakeAmt = 0.075f;
@@ -15,25 +17,24 @@ public class CameraFollower : MonoBehaviour
     bool shakeCam = false;
 
     //[SerializeField] Vector3 screenShakeAmt = new Vector3(.1f, .1f);
-    //[SerializeField] Vector3 camOffset = new Vector3(0, 10, -50);
 
     void Awake()
     {
         //CarController.OnCollideWithFloor += FloorCollisionScreenShake;
-        cam = Camera.main;
+
+        car = GameObject.FindGameObjectWithTag("Player");
         originalCamPos = cam.transform.localPosition;
-        //transform.rotation = Quaternion.Euler(0, -15, 0);
-        //carPlayer = GameObject.FindGameObjectWithTag("Player");
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = carPlayer.transform.position;
-        
-        if (carPlayer.isGrounded)
-            
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, carPlayer.GetCarRotation().eulerAngles.y, 0), slerpTime);
+        transform.position = car.transform.position;
+
+        if (car.GetComponent<CarController_2>().isGrounded)
+
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, car.transform.eulerAngles.y, 0), slerpTime);
 
         if (shakeCam)
         {
@@ -49,7 +50,7 @@ public class CameraFollower : MonoBehaviour
                 cam.transform.localPosition = originalCamPos;
             }
         }
-        
+
 
     }
 
@@ -60,8 +61,8 @@ public class CameraFollower : MonoBehaviour
 
     IEnumerator ScreenShake()
     {
-        
+
         yield return new WaitForSeconds(0.1f);
-        
+
     }
 }
