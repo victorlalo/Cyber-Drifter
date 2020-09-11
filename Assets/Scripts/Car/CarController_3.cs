@@ -9,6 +9,8 @@ public class CarController_3 : MonoBehaviour
     public Wheel[] wheels;
     [SerializeField] Vector3 bodyWheelOffset;
 
+    public Vector3 wheelAvPos;
+
 
     [Header("Car Body Objects")]
     // Car Model Object
@@ -49,21 +51,25 @@ public class CarController_3 : MonoBehaviour
         float steerAmount = Input.GetAxis("Horizontal") * normalTurnAmount * Time.fixedDeltaTime;
         transform.Rotate(0, steerAmount , 0);
 
+        
+
         foreach (var wheel in wheels)
         {
             wheel.ApplyAcceleration(motorForce);
             //wheel.ApplyRotation(steerAmount);
         }
 
-        rb.position = GetAverageWheelPosition();
+        transform.position = GetAverageWheelPosition();
+        carModel.transform.position = transform.position;
 
-        
+
+
     }
 
     private void Update()
     {
         
-        //debugCube.transform.position = GetAverageWheelPosition();
+        debugCube.transform.position = GetAverageWheelPosition();
     }
 
     private Vector3 GetAverageWheelPosition()

@@ -22,14 +22,15 @@ public class Wheel : MonoBehaviour
 
     public void ApplyAcceleration(float motorForce)
     {
-        rb.AddForce(Vector3.forward * motorForce, ForceMode.Acceleration);
+        rb.AddForce(transform.forward * motorForce, ForceMode.Acceleration);
+        //transform.position += transform.forward * motorForce;
         
     }
 
     public void ApplyRotation(float steerAmt)
     {
         Vector3 rotation = mesh.transform.eulerAngles;
-        rotation.x += Time.deltaTime * rotationSpeed;
+        //rotation.x += Time.deltaTime * rotationSpeed;
         rotation.z = 0;
 
         if (canSteer)
