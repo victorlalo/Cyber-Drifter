@@ -6,6 +6,7 @@ using System;
 
 public class CarController : MonoBehaviour
 {
+    [Header("Tunable Parameters")]
     // TUNABLE PARAMTERS
     [SerializeField] float speed = 10f;
     [SerializeField] float speedIncrement = 0.01f;
@@ -21,14 +22,14 @@ public class CarController : MonoBehaviour
     float normalMass, driftMass;
     Vector3 normalGravity, heavyGravity;
 
-
+    [Header("Models")]
     // 3D MODELS
     [SerializeField] GameObject carModel;
     [SerializeField] SphereCollider ballCollider;
     Rigidbody sphereRB;
     [SerializeField] Vector3 colliderOffset = new Vector3();
 
-
+    [Header("Ground Detection")]
     [SerializeField] GameObject RaycastPoint;
     public float raycastDistance = 1f;
     [SerializeField] LayerMask groundLayer; 
@@ -36,13 +37,15 @@ public class CarController : MonoBehaviour
 
     Vector3 startPos;
 
-
+    [Header("Item Parameters")]
     // ITEM PARAMETERS
     float nitrousAmt = 0f;
+    [SerializeField] float nitrousIncrementAmt = 30f;
     float nitrousSpeedMultiplier = 1f;
     [SerializeField] GameObject shield;
     bool shieldActive = false;
 
+    [Header("States")]
     // STATES
     public bool isGrounded = true;
     public bool isDrifting = false;
@@ -205,8 +208,8 @@ public class CarController : MonoBehaviour
     {
         if (itemType == ItemType.NITROUS)
         {
-            nitrousAmt = Mathf.Clamp(nitrousAmt + 10f, 0, 100);
-            OnNitrousPickup?.Invoke(10f);
+            nitrousAmt = Mathf.Clamp(nitrousAmt + nitrousIncrementAmt, 0, 100);
+            OnNitrousPickup?.Invoke(nitrousIncrementAmt);
         }
         else if (itemType == ItemType.SHIELD)
         {

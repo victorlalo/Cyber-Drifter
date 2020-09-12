@@ -660,7 +660,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 80
-  speedIncrement: 0.005
+  speedIncrement: 0.0005
   normalTurnSpeed: 36
   driftTurnSpeed: 60
   airFlipSpeed: 500
@@ -674,6 +674,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
+  nitrousIncrementAmt: 30
   shield: {fileID: 5175274790248118856}
   isGrounded: 1
   isDrifting: 0
@@ -765,6 +766,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 0
+  nitrousIncrementAmt: 30
   shield: {fileID: 0}
   isGrounded: 1
   isDrifting: 0
