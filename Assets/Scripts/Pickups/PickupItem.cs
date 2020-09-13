@@ -18,12 +18,13 @@ public enum ItemType
 public class PickupItem : MonoBehaviour
 {
     [SerializeField] ItemType itemType;
+    FloatingAnimation anim;
 
     public static event Action<ItemType> onItemCollision;
 
     void Start()
     {
-        
+        anim = GetComponent<FloatingAnimation>();
     }
 
     void Update()
@@ -33,13 +34,15 @@ public class PickupItem : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.GetComponent<CarController>())
         {
-            Debug.Log("GOT ITEM: " + itemType.ToString());
+            //Debug.Log("GOT ITEM: " + itemType.ToString());
+            transform.parent = collision.gameObject.transform;
             onItemCollision?.Invoke(itemType);
 
             // ** TO DO: send back to pool instead of destroy
             Destroy(gameObject);
+            //anim.SendToHUD(itemType);
         }
             
     }

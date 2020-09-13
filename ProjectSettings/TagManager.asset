@@ -7,6 +7,7 @@ TagManager:
   - Ground
   - DeathZone
   - Ramp
+  - Wheel
   layers:
   - Default
   - TransparentFX

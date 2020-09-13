@@ -28,13 +28,13 @@ public class CarController : MonoBehaviour
     [SerializeField] SphereCollider ballCollider;
     Rigidbody sphereRB;
     [SerializeField] Vector3 colliderOffset = new Vector3();
+    GameObject[] wheels;
 
     [Header("Ground Detection")]
     [SerializeField] GameObject RaycastPoint;
+    [SerializeField] LayerMask groundLayer;
     public float raycastDistance = 1f;
-    [SerializeField] LayerMask groundLayer; 
     
-
     Vector3 startPos;
 
     [Header("Item Parameters")]
@@ -42,6 +42,7 @@ public class CarController : MonoBehaviour
     float nitrousAmt = 0f;
     [SerializeField] float nitrousIncrementAmt = 30f;
     float nitrousSpeedMultiplier = 1f;
+    [SerializeField] ParticleSystem[] nitrousFX;
     [SerializeField] GameObject shield;
     bool shieldActive = false;
 
@@ -75,8 +76,16 @@ public class CarController : MonoBehaviour
         startPos = transform.position;
         //collider = GetComponent<SphereCollider>();
 
+        wheels = GameObject.FindGameObjectsWithTag("Wheel");
+
         shield.SetActive(false);
         PickupItem.onItemCollision += HandleItemPickup;
+
+        foreach(var nitro in nitrousFX)
+        {
+            nitro.Pause();
+            nitro.gameObject.SetActive(false);
+        }
     }
 
     public Quaternion GetCarRotation()
@@ -116,12 +125,23 @@ public class CarController : MonoBehaviour
             OnNitrousPickup?.Invoke(-.1f);
             
             // activate exhaust flames
+            foreach(var n in nitrousFX)
+            {
+                n.gameObject.SetActive(true);
+                n.Play();
+            }
         }
         else
         {
             nitrousSpeedMultiplier = 1f;
 
             // deactivate exhaust flames
+            foreach (var n in nitrousFX)
+            {
+                n.Pause();
+                n.gameObject.SetActive(false);
+            }
+            
         }
     }
 
@@ -129,7 +149,6 @@ public class CarController : MonoBehaviour
     {
         float inputDir = Input.GetAxis("Horizontal");
         
-
         RaycastHit hit;
         isGrounded = Physics.Raycast(RaycastPoint.transform.position, -transform.up, out hit, raycastDistance, groundLayer);
 
@@ -140,6 +159,10 @@ public class CarController : MonoBehaviour
             Physics.gravity = normalGravity;
 
             sphereRB.AddForce(transform.forward * speed * 100 * nitrousSpeedMultiplier * Time.deltaTime, ForceMode.Acceleration);
+            foreach(GameObject wheel in wheels)
+            {
+                wheel.transform.Rotate(speed * 50 * Time.deltaTime * nitrousSpeedMultiplier,0,0);
+            }
             
             //sphereRB.MovePosition(new Vector3(sphereRB.position.x + inputDir * normalTurnSpeed * Time.deltaTime, sphereRB.position.y, sphereRB.position.z));
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0), 0.15f);
@@ -149,7 +172,6 @@ public class CarController : MonoBehaviour
                 //sphereRB.mass = driftMass;
                 sphereRB.drag = driftDrag;
                 transform.Rotate(0, inputDir * driftTurnSpeed * Time.deltaTime, 0);
-                //print(transform.rotation.eulerAngles.y);
                 //transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, Mathf.Clamp(transform.rotation.eulerAngles.y, -maxTurnAmt, maxTurnAmt), transform.rotation.eulerAngles.z);
             }
             else
