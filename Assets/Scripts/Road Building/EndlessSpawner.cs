@@ -49,7 +49,7 @@ public class EndlessSpawner : MonoBehaviour
         furthestEdge += straightPlatformLength;
         lastPlatformIndex = (lastPlatformIndex + 1) % initialSpawnNum;
 
-        Debug.Log("MOVED PLATFORM TO END OF LINE");
+        //Debug.Log("MOVED PLATFORM TO END OF LINE");
 
     }
 

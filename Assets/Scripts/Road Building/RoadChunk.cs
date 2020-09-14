@@ -51,7 +51,7 @@ public class RoadChunk : MonoBehaviour
         if (SpawnedObjects.Count > 0)
             ClearPlatform();
 
-        int numObjects = Random.Range(2, 5);
+        int numObjects = Random.Range(2, 4);
         maxZPos = platformCollider.bounds.max.z;
         zRange = endPos.transform.position.z - startPos.transform.position.z;
         float zPos = 0;

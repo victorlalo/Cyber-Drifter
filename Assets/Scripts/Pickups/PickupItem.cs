@@ -37,12 +37,12 @@ public class PickupItem : MonoBehaviour
         if (collision.gameObject.GetComponent<CarController>())
         {
             //Debug.Log("GOT ITEM: " + itemType.ToString());
-            transform.parent = collision.gameObject.transform;
+            transform.parent = Camera.main.transform;
             onItemCollision?.Invoke(itemType);
 
             // ** TO DO: send back to pool instead of destroy
             Destroy(gameObject);
-            //anim.SendToHUD(itemType);
+            anim.SendToHUD(itemType);
         }
             
     }

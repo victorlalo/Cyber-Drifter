@@ -17,9 +17,15 @@ public class HUDManager : MonoBehaviour
     float timer = 0f;
     [SerializeField] float timePerUpdate = .1f;
 
+    public RectTransform bottomRight;
+    public RectTransform bottomLeft;
+    public RectTransform topRight;
+    public RectTransform topLeft;
+
     void Start()
     {
         PickupItem.onItemCollision += HandleTokenPickup;
+        CarController.OnTrickPerformed += HandleScoreChange;
     }
 
     void Update()
@@ -45,8 +51,11 @@ public class HUDManager : MonoBehaviour
         }
     }
 
-    void HandleScoreChange(float amt)
+    void HandleScoreChange(AirTrick trick, float amt)
     {
-        return;
+        score += amt;
+        scoreText.text = "Score: " + score.ToString("F0");
+
+        Debug.Log("LANDED A " + trick.ToString());
     }
 }
