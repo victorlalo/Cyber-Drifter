@@ -699,6 +699,10 @@ MonoBehaviour:
   airFlipSpeed: 500
   lerpSpeed: 0.05
   maxTurnAmt: 10
+  currentVertRotation: 0
+  currentHorizRotation: 0
+  airTrickPoints: 100
+  wiggleRoomAmt: 0
   carModel: {fileID: 7320923193452996184}
   ballCollider: {fileID: 7320923193134859051}
   colliderOffset: {x: 0, y: 0.2, z: 0}
@@ -712,6 +716,7 @@ MonoBehaviour:
   - {fileID: 198203777988809449}
   - {fileID: 198203778678660143}
   shield: {fileID: 5175274790248118856}
+  slowTimeSpeed: 0.3
   isGrounded: 1
   isDrifting: 0
 --- !u!54 &7320923193452996196
@@ -794,6 +799,10 @@ MonoBehaviour:
   airFlipSpeed: 50
   lerpSpeed: 0.5
   maxTurnAmt: 15
+  currentVertRotation: 0
+  currentHorizRotation: 0
+  airTrickPoints: 100
+  wiggleRoomAmt: 10
   carModel: {fileID: 7320923192398716408}
   ballCollider: {fileID: 0}
   colliderOffset: {x: 0, y: 0.1, z: 0}
@@ -805,6 +814,7 @@ MonoBehaviour:
   nitrousIncrementAmt: 30
   nitrousFX: []
   shield: {fileID: 0}
+  slowTimeSpeed: 0.1
   isGrounded: 1
   isDrifting: 0
 --- !u!1 &7320923194366757854
