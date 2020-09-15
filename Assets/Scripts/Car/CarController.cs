@@ -157,9 +157,9 @@ public class CarController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.X) && nitrousAmt > 0f)
         {
-            nitrousAmt -= .01f;
-            nitrousSpeedMultiplier = 2.5f;
-            OnNitrousPickup?.Invoke(-.1f);
+            nitrousAmt -= .06f;
+            nitrousSpeedMultiplier = 2f;
+            OnNitrousPickup?.Invoke(-.06f);
             
             // activate exhaust flames
             foreach(var n in nitrousFX)

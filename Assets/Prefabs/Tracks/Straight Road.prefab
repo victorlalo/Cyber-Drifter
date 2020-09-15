@@ -60,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 670224309865224971, guid: 979f39809ad978646a26c864b42dfd70, type: 3}
+  - {fileID: 2100000, guid: 3b9b133ac3b187a4eb85a2c2f83762c1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -199,9 +199,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawnableObjects:
+  - {fileID: 4101579222853655881, guid: 0b30c7edb4371814491590ba2b3204d7, type: 3}
+  - {fileID: 4101579222853655881, guid: 61499b1b18e1d9b4ab9ae00c2334f137, type: 3}
   - {fileID: 4101579222853655881, guid: 6626eb951fe872e4da7cc648bfaf6058, type: 3}
+  - {fileID: 6505674987276212442, guid: f11c88a9d583c7143812736c0b9358e9, type: 3}
   - {fileID: 6505674987276212442, guid: 9af5bccf44e2db14abb457d638daaac9, type: 3}
-  - {fileID: 3948446347147630073, guid: 2ef004040ce713b4285de3bcedb324f3, type: 3}
+  - {fileID: 6505674987276212442, guid: b7544d5ced256ee45a91566f528fc8e9, type: 3}
   - {fileID: 1614219734753909751, guid: ac3e99d1506b060408d3a7a309fcd887, type: 3}
   - {fileID: 8588880215564139342, guid: a6335fcee0f72cf448c85d68210fd7dd, type: 3}
   trackModel: {fileID: 5608933685995774862}

@@ -171,7 +171,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 3b9b133ac3b187a4eb85a2c2f83762c1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -221,3 +221,6 @@ MonoBehaviour:
   SpawnableObjects:
   - {fileID: 3948446347147630073, guid: 2ef004040ce713b4285de3bcedb324f3, type: 3}
   - {fileID: 2227521087142747972, guid: b32ec5f072e65c24d89190d2bab40636, type: 3}
+  trackModel: {fileID: 0}
+  startPos: {fileID: 0}
+  endPos: {fileID: 0}

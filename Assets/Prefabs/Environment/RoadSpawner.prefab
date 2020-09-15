@@ -54,6 +54,24 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6590019857695521152}
     m_Modifications:
+    - target: {fileID: 6318088819955300400, guid: a610f5e814ffae84482d4acdd4e1a7a1,
+        type: 3}
+      propertyPath: SpawnableObjects.Array.data[6]
+      value: 
+      objectReference: {fileID: 8588880215564139342, guid: a6335fcee0f72cf448c85d68210fd7dd,
+        type: 3}
+    - target: {fileID: 6318088819955300400, guid: a610f5e814ffae84482d4acdd4e1a7a1,
+        type: 3}
+      propertyPath: SpawnableObjects.Array.data[7]
+      value: 
+      objectReference: {fileID: 1614219734753909751, guid: ac3e99d1506b060408d3a7a309fcd887,
+        type: 3}
+    - target: {fileID: 6318088819955300400, guid: a610f5e814ffae84482d4acdd4e1a7a1,
+        type: 3}
+      propertyPath: SpawnableObjects.Array.data[8]
+      value: 
+      objectReference: {fileID: 8541398145910986364, guid: e4047b998b7bda1449a5fcb0347c0bbc,
+        type: 3}
     - target: {fileID: 6318088819955300401, guid: a610f5e814ffae84482d4acdd4e1a7a1,
         type: 3}
       propertyPath: m_LocalPosition.x
