@@ -411,6 +411,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Synthwave Environment
       objectReference: {fileID: 0}
+    - target: {fileID: 8160696535318102275, guid: de5be1ff5dbb3864e8f68123a22ffb8f,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8160696535318102275, guid: de5be1ff5dbb3864e8f68123a22ffb8f,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8160696535318102275, guid: de5be1ff5dbb3864e8f68123a22ffb8f,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8160696535318102275, guid: de5be1ff5dbb3864e8f68123a22ffb8f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 17.21
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de5be1ff5dbb3864e8f68123a22ffb8f, type: 3}
 --- !u!1001 &919116210470694539
